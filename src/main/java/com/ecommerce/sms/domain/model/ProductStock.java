@@ -4,6 +4,7 @@ package com.ecommerce.sms.domain.model;
 
 //Imports
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -17,6 +18,7 @@ public class ProductStock {
     @Column(name = "product")
     private Long productId;
 
+    @Min(value = 0)
     @NotNull
     private Integer quantity;
 

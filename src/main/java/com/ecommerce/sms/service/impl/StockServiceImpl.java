@@ -5,9 +5,10 @@ package com.ecommerce.sms.service.impl;
 //Imports
 import com.ecommerce.sms.domain.model.ProductStock;
 import com.ecommerce.sms.exception.ResourceNotFoundException;
-import com.ecommerce.sms.repository.ProductStockRepository;
-import com.ecommerce.sms.service.ProductStockService;
+import com.ecommerce.sms.repository.StockRepository;
+import com.ecommerce.sms.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,31 +18,36 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class ProductStockServiceImpl implements ProductStockService {
+public class StockServiceImpl implements StockService {
 
     @Autowired
-    private transient ProductStockRepository productStockRepository;
+    private transient StockRepository stockRepository;
 
     @Override
     public Iterable<ProductStock> fechProductsAvailability() {
-        return productStockRepository.findAll();
+        return stockRepository.findAll();
     }
 
     @Override
     public ProductStock findProductAvailability(long id) {
-        return productStockRepository
+        return stockRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ProductStock not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
 
     @Override
     public ProductStock save(ProductStock productStock) {
-        return productStockRepository.save(productStock);
+        return stockRepository.save(productStock);
     }
 
     @Override
     public void delete(long id) {
-        productStockRepository.deleteById(id);
+        try {
+            stockRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Product not found");
+        }
     }
 
 }

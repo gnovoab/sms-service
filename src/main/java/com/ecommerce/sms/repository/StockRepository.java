@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ProductStockRepository extends CrudRepository<ProductStock, Long> {
+public interface StockRepository extends CrudRepository<ProductStock, Long> {
 }
