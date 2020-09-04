@@ -1,0 +1,26 @@
+info:
+  description: Stock Management Service
+
+spring:
+  application:
+    name: stock-service
+    version: 1.0
+
+
+  cloud:
+    config:
+      uri:  http://config-service.common.svc.cluster.local/
+
+---
+
+spring:
+  profiles: default, native, unitTest, integrationTest
+
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      retry:
+        max-attempts: 50
+        initial-interval: 1500
+        multiplier: 2
